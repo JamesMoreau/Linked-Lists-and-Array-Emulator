@@ -3,7 +3,7 @@
 #define __MEMORYH__
 
 /*Globals*/
-MAX_BLOCKS 4096
+MAX_BLOCKS 4096 //should this be in header file
 
 /*Libraries*/
 #include <stdio.h>
