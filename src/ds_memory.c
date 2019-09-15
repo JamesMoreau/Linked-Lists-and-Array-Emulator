@@ -15,7 +15,7 @@ int ds_create(char *filename, long size) {
     ds_file.block[0].length = size;
     ds_file.block[0].alloced = '0';
 
-    for(i=1; i < MAX_BLOCKS; i++) { 
+    for(i=1; i < MAX_BLOCKS; ++i) { 
         ds_file.block[i].start = 0;
         ds_file.block[i].length = 0;
         ds_file.block[i].alloced = '0';
@@ -46,13 +46,13 @@ int ds_init(char* filename) {
 long ds_malloc(long amount) {
     
     int i;
-    int isFound = -1;
+    int isFound = 0;
     long tempStartValue;
     long tempLengthValue;
 
-    for (i=0; i<MAX_BLOCKS; i++) { /*Searching for free space*/
+    for (i=0; i<MAX_BLOCKS; ++i) { /*Searching for free space*/
         if ((ds_file.block[i].length >= amount) && (ds_file.block[i].alloced == '0')) {
-            isFound = 0;
+            isFound = 1;
             
             ds_file.block[i].length = amount;
             ds_file.block[i].alloced = '1';
@@ -63,11 +63,9 @@ long ds_malloc(long amount) {
 
         }
     }
-    if (isFound == -1) {
-        return -1;
-    }
+    if (!isFound) { return -1;}
 
-    for (i=0; i<MAX_BLOCKS; i++) { /*Looking for empty block*/
+    for (i=0; i<MAX_BLOCKS; ++i) { /*Looking for empty block*/
         if (ds_file.block[i].length == 0) {
             ds_file.block[i].start = tempStartValue + amount;
             ds_file.block[i].length = tempLengthValue - amount;
@@ -76,4 +74,43 @@ long ds_malloc(long amount) {
     }
 
     return tempStartValue;
+}
+
+void ds_free(long start) {
+
+    int i;
+
+    for (i=0; i<MAX_BLOCKS; ++i) {
+        if(ds_file.block[i].start == start) {
+            ds_file.block[i].alloced = '0';
+        }
+    }
+}
+
+void *ds_read(void *ptr, long start, long bytes) { /*should this begin by fseek'ing to the beggining of the file?*/
+
+    fseek(ds_file.fp, sizeof(struct ds_blocks_struct), SEEK_SET);
+    fseek(ds_file.fp, start, SEEK_CUR);
+
+    if(!fread(ptr, bytes, 1, ds_file.fp)) { return NULL;}
+
+    ++ds_counts.reads;
+
+    return ptr;
+}
+
+long ds_write(long start, void *ptr, long bytes) { /*same issue as above*/
+    
+    fseek(ds_file.fp, sizeof(struct ds_blocks_struct), SEEK_SET);
+    fseek(ds_file.fp, start, SEEK_CUR);
+
+    if(!fwrite(ptr, bytes, 1, ds_file.fp)) {return -1;}
+
+    ++ds_counts.writes;
+
+    return start;
+}
+
+int ds_finish() {
+    
 }
