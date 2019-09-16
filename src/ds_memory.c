@@ -112,5 +112,10 @@ long ds_write(long start, void *ptr, long bytes) { /*same issue as above*/
 }
 
 int ds_finish() {
+
+    fseek(ds_file.fp, 0, SEEK_SET);
+    if(!fwrite(,sizeof(struct ds_blocks_struct), 1, ds_file.fp)) {return 0;} /*problem here*/
     
+    printf("reads: %d\nwrites: %d", ds_counts.reads, ds_counts.writes);
+
 }
