@@ -104,7 +104,7 @@ long ds_write(long start, void *ptr, long bytes) { /*same issue as above*/
     fseek(ds_file.fp, sizeof(struct ds_blocks_struct), SEEK_SET);
     fseek(ds_file.fp, start, SEEK_CUR);
 
-    if(!fwrite(ptr, bytes, 1, ds_file.fp)) {return -1;}
+    if(!fwrite(ptr, bytes, 1, ds_file.fp)) { return 1;}
 
     ++ds_counts.writes;
 
@@ -117,9 +117,9 @@ int ds_finish() { /*Check if file header understanding is correct here*/
     fseek(ds_file.fp, 0, SEEK_SET);
 
     for (i = 0; i<MAX_BLOCKS; i++) {
-        if(!fwrite(ds_file.block[i].start, sizeof(long), 1, ds_file.fp)) {return 0;}
-        if(!fwrite(ds_file.block[i].length, sizeof(long), 1, ds_file.fp)) {return 0;}
-        if(!fwrite(ds_file.block[i].start, sizeof(char), 1, ds_file.fp)) {return 0;}
+        if(!fwrite(ds_file.block[i].start, sizeof(long), 1, ds_file.fp)) { return 0;}
+        if(!fwrite(ds_file.block[i].length, sizeof(long), 1, ds_file.fp)) { return 0;}
+        if(!fwrite(ds_file.block[i].start, sizeof(char), 1, ds_file.fp)) { return 0;}
     }
     fclose(ds_file.fp);
 
