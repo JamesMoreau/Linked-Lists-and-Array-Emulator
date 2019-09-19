@@ -111,11 +111,17 @@ long ds_write(long start, void *ptr, long bytes) { /*same issue as above*/
     return start;
 }
 
-int ds_finish() {
+int ds_finish() { /*Check if file header understanding is correct here*/
 
+    int i;
     fseek(ds_file.fp, 0, SEEK_SET);
-    if(!fwrite(,sizeof(struct ds_blocks_struct), 1, ds_file.fp)) {return 0;} /*problem here*/
-    
-    printf("reads: %d\nwrites: %d", ds_counts.reads, ds_counts.writes);
 
+    for (i = 0; i<MAX_BLOCKS; i++) {
+        if(!fwrite(ds_file.block[i].start, sizeof(long), 1, ds_file.fp)) {return 0;}
+        if(!fwrite(ds_file.block[i].length, sizeof(long), 1, ds_file.fp)) {return 0;}
+        if(!fwrite(ds_file.block[i].start, sizeof(char), 1, ds_file.fp)) {return 0;}
+    }
+    fclose(ds_file.fp);
+
+    printf("reads: %d\nwrites: %d", ds_counts.reads, ds_counts.writes);
 }

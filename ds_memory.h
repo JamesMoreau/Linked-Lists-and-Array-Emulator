@@ -29,5 +29,12 @@ struct ds_file_struct {
 };
 
 /*Functions*/
+int ds_create(char *, long );
+int ds_init(char*);
+long ds_malloc(long);
+void ds_free(long);
+void *ds_read(void *, long , long );
+long ds_write(long, void *, long);
+int ds_finish();
 
 #endif
