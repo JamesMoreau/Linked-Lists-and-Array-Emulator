@@ -35,7 +35,7 @@ int ds_init(char* filename) {
     !(fread(ds_file.block[0].start , sizeof(long), 1, ds_file.fp) && 
     fread(ds_file.block[0].length , sizeof(long), 1, ds_file.fp) &&
     fread(ds_file.block[0].alloced , sizeof(char), 1, ds_file.fp))
-    ) { return -1;}
+    ) { return 1;}
 
     ds_counts.reads = 0;
     ds_counts.writes = 0;
@@ -87,10 +87,9 @@ void ds_free(long start) {
     }
 }
 
-void *ds_read(void *ptr, long start, long bytes) { /*should this begin by fseek'ing to the beggining of the file?*/
+void *ds_read(void *ptr, long start, long bytes) {
 
-    fseek(ds_file.fp, sizeof(struct ds_blocks_struct), SEEK_SET);
-    fseek(ds_file.fp, start, SEEK_CUR);
+    fseek(ds_file.fp, sizeof(ds_file.block) + start, SEEK_SET);
 
     if(!fread(ptr, bytes, 1, ds_file.fp)) { return NULL;}
 
@@ -99,10 +98,9 @@ void *ds_read(void *ptr, long start, long bytes) { /*should this begin by fseek'
     return ptr;
 }
 
-long ds_write(long start, void *ptr, long bytes) { /*same issue as above*/
-    
-    fseek(ds_file.fp, sizeof(struct ds_blocks_struct), SEEK_SET);
-    fseek(ds_file.fp, start, SEEK_CUR);
+long ds_write(long start, void *ptr, long bytes) {
+
+    fseek(ds_file.fp, sizeof(ds_file.block) + start, SEEK_SET);
 
     if(!fwrite(ptr, bytes, 1, ds_file.fp)) { return 1;}
 
@@ -111,7 +109,7 @@ long ds_write(long start, void *ptr, long bytes) { /*same issue as above*/
     return start;
 }
 
-int ds_finish() { /*Check if file header understanding is correct here*/
+int ds_finish() { /*Is there any way to write a whole struct?*/
 
     int i;
     fseek(ds_file.fp, 0, SEEK_SET);
