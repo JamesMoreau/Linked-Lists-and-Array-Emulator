@@ -25,7 +25,6 @@ struct ds_blocks_struct {
 struct ds_file_struct {
     FILE* fp;
     struct ds_blocks_struct block[MAX_BLOCKS];
-
 };
 
 /*Functions*/

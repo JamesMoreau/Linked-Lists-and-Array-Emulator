@@ -31,11 +31,7 @@ int ds_init(char* filename) {
     ds_file.fp = fopen(filename, "rb+");
     if (ds_file.fp == NULL) { return -1;}
 
-    if ( /*reading in header + error handling*/
-    !(fread(ds_file.block[0].start , sizeof(long), 1, ds_file.fp) && 
-    fread(ds_file.block[0].length , sizeof(long), 1, ds_file.fp) &&
-    fread(ds_file.block[0].alloced , sizeof(char), 1, ds_file.fp))
-    ) { return 1;}
+    if (!(fread(ds_file.block, sizeof(struct ds_blocks_struct), MAX_BLOCKS, ds_file.fp))) { return 1;}
 
     ds_counts.reads = 0;
     ds_counts.writes = 0;
@@ -115,11 +111,11 @@ int ds_finish() { /*Is there any way to write a whole struct?*/
     fseek(ds_file.fp, 0, SEEK_SET);
 
     for (i = 0; i<MAX_BLOCKS; i++) {
-        if(!fwrite(ds_file.block[i].start, sizeof(long), 1, ds_file.fp)) { return 0;}
-        if(!fwrite(ds_file.block[i].length, sizeof(long), 1, ds_file.fp)) { return 0;}
-        if(!fwrite(ds_file.block[i].start, sizeof(char), 1, ds_file.fp)) { return 0;}
+        if(!fwrite(&ds_file.block[i], sizeof(struct ds_blocks_struct), 1, ds_file.fp)) { return 0;}
     }
     fclose(ds_file.fp);
 
     printf("reads: %d\nwrites: %d", ds_counts.reads, ds_counts.writes);
+
+    return 0;
 }
