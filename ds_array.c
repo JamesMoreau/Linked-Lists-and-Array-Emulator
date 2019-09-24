@@ -55,3 +55,19 @@ int ds_delete (long index) { /*Continue*/
 
     return 0;
 }
+
+long ds_find (int target) {
+    long i;
+    int temp;
+    for (i=0; i<elements; i++) {
+        ds_read(&temp, i * sizeof(int), sizeof(int)); //Will this move across the file in steps of 4 bytes?
+        if (temp == target) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int ds_read_elements(char *filename) {
+    
+}
