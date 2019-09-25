@@ -13,7 +13,10 @@ ds_array.o: ds_array.c ds_array.h
 main.o: main.c
 	$(CC) $(CFLAGS) main.c -c -o main.o
 
-clean:
-	rm ds_memory.o
-	rm ds_array.o
-	rm Test.exe
+cleanW:
+	del *.exe
+	del *.o
+
+cleanL:
+	rm *.exe
+	rm *.o
