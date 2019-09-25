@@ -11,7 +11,7 @@ int ds_create(char *filename, long size) {
     ds_file.fp = fopen(filename, "wb+");
     if (ds_file.fp == NULL) { return -1;}
 
-    ds_file.block[0].start = 0; /*This accessing might be wrong*/
+    ds_file.block[0].start = 0;
     ds_file.block[0].length = size;
     ds_file.block[0].alloced = '0';
 
@@ -105,7 +105,7 @@ long ds_write(long start, void *ptr, long bytes) {
     return start;
 }
 
-int ds_finish() { /*Is there any way to write a whole struct?*/
+int ds_finish() {
 
     int i;
     fseek(ds_file.fp, 0, SEEK_SET);
