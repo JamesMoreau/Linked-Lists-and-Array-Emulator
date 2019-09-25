@@ -3,6 +3,10 @@
 
 long elements;
 
+long getFileLocation_Array(int index) {
+    return (index * sizeof(int)) + sizeof(elements);
+}
+
 int ds_create_array() {
     long myAddress;
     elements = 0;
@@ -35,8 +39,9 @@ int ds_replace(int value, long index) {
 int ds_insert(int value, long index) {
     int i;
     int new, old;
-    long fileLocation = (index * sizeof(int)) + sizeof(elements);
-    if(index < 0 || index > elements + 1 || index > MAX_ELEMENTS) {return 1;}
+    long fileLocation = getFileLocation_Array(index);
+
+    if( (index < 0) || (index > elements) || (index > MAX_ELEMENTS) ) {return 1;}
 
     for (i = index; i<elements; i++) {
         ds_read(&old, fileLocation, sizeof(int));
@@ -51,16 +56,29 @@ int ds_insert(int value, long index) {
     return 0;
 }
 
-int ds_delete (long index) { /*Continue*/
+int ds_delete(long index) {
+    int i;
+    int next;
+    long fileLocation = getFileLocation_Array(index);
 
+    if( (index < 0) || (index >= elements)) {return 1;}
+
+    for (i=index; i<(elements-1); i++) {
+        ds_read(&next, fileLocation + sizeof(int), sizeof(int)); /*reads next int in array*/
+        ds_write(fileLocation, &next, sizeof(int));
+
+        fileLocation+=sizeof(int);
+    }
+
+    elements--;
     return 0;
 }
 
-long ds_find (int target) {
+long ds_find(int target) {
     long i;
     int temp;
     for (i=0; i<elements; i++) {
-        ds_read(&temp, i * sizeof(int), sizeof(int)); //Will this move across the file in steps of 4 bytes?
+        ds_read(&temp, i * sizeof(int), sizeof(int));
         if (temp == target) {
             return i;
         }
@@ -68,6 +86,41 @@ long ds_find (int target) {
     return -1;
 }
 
+int ds_swap(long index1, long index2) {
+    int temp1;
+    int temp2;
+
+    return 1;
+    if ((index1 < 0) || (index1 >= elements)) {return 1;}
+    if ((index2 < 0) || (index2 >= elements)) {return 1;}  
+
+    ds_read(&temp1, getFileLocation_Array(index1), sizeof(int));
+    ds_read(&temp2, getFileLocation_Array(index2), sizeof(int));
+
+    ds_write(getFileLocation_Array(index2), &temp1, sizeof(int));
+    ds_write(getFileLocation_Array(index1), &temp2, sizeof(int));
+
+    return 0;
+}
+
 int ds_read_elements(char *filename) {
+
+    int temp;
+    FILE* myFp = fopen(filename, "r");
+    if (myFp == NULL) {return 1;}
+
+    while(fscanf(myFp, "%d" , &temp) && (elements<MAX_ELEMENTS)) {
+        ds_insert(temp, elements);
+        elements++;
+    }
     
+    return 0;
+}
+
+int ds_finish_array() {
+    
+    ds_write(getFileLocation_Array(0), &elements, sizeof(long));
+    if(!ds_finish()) {return 1;}
+
+    return 0;
 }
