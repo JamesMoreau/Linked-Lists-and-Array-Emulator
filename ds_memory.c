@@ -49,33 +49,29 @@ long ds_malloc(long amount) {
     
     int i;
     int j;
-    int isFound = 0;
-    long tempStartValue;
-    long tempLengthValue;
 
-    for (i=0; i<MAX_BLOCKS; ++i) {
-        if ((ds_file.block[i].length >= amount) && (ds_file.block[i].alloced == '0')) {
-            isFound = 1;
+    for (i=0; i<MAX_BLOCKS; i++) {
+        if ((ds_file.block[i].length >= amount) && (ds_file.block[i].alloced == '0')) { /*Check if correct*/
             
+            for (j = 0; j < MAX_BLOCKS; j++)
+            {
+                if (ds_file.block[j].length == 0)
+                {
+                    ds_file.block[j].start = ds_file.block[i].start + amount;
+                    ds_file.block[j].length = ds_file.block[i].length - amount;
+                    ds_file.block[j].alloced = '0';
+                    break;
+                }
+            }
+
             ds_file.block[i].length = amount;
             ds_file.block[i].alloced = '1';
 
-            tempStartValue = ds_file.block[i].start;
-            tempLengthValue = ds_file.block[i].length;
-
-        }
-    }
-    if (!isFound) { return -1;}
-
-    for (i=0; i<MAX_BLOCKS; ++i) { /*shld this be inside first loop? ie.start searchign for 2nd blk from the first*/ 
-        if (ds_file.block[i].length == 0) {
-            ds_file.block[i].start = tempStartValue + amount;
-            ds_file.block[i].length = tempLengthValue - amount;
-            ds_file.block[i].alloced = '0';
+            return ds_file.block[i].start;
         }
     }
 
-    return tempStartValue;
+    return -1;
 }
 
 void ds_free(long start) {
@@ -129,7 +125,7 @@ int ds_finish() {
 void ds_test_init() {
     int i;
     printf("Block #\tStart\tLength\talloced\n");
-    for ( i=0; i<100; i++) {
+    for ( i=0; i<MAX_BLOCKS; i++) {
         printf("%d\t%ld\t%ld\t%c\n", i, ds_file.block[i].start, ds_file.block[i].length, ds_file.block[i].alloced); /*wow*/
     }
 }
