@@ -34,11 +34,10 @@ int ds_create(char *filename, long size) {
 
 int ds_init(char* filename) {
 
-    struct ds_file_struct ds_file;
     ds_file.fp = fopen(filename, "rb+");
-    if (ds_file.fp == NULL) { return -1;}
+    if (ds_file.fp == NULL) { return 1;}
 
-    if (!(fread(ds_file.block, sizeof(struct ds_blocks_struct), MAX_BLOCKS, ds_file.fp))) { return 1;}
+    if (!fread(ds_file.block, sizeof(struct ds_blocks_struct), MAX_BLOCKS, ds_file.fp)) { return 1;}
 
     ds_counts.reads = 0;
     ds_counts.writes = 0;
@@ -125,4 +124,12 @@ int ds_finish() {
     printf("reads: %d\nwrites: %d", ds_counts.reads, ds_counts.writes);
 
     return 0;
+}
+
+void ds_test_init() {
+    int i;
+    printf("Block #\tStart\tLength\talloced\n");
+    for ( i=0; i<100; i++) {
+        printf("%d\t%ld\t%ld\t%c\n", i, ds_file.block[i].start, ds_file.block[i].length, ds_file.block[i].alloced); /*wow*/
+    }
 }

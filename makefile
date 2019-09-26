@@ -18,5 +18,6 @@ cleanW:
 	del *.o
 
 cleanL:
-	rm Test
+	rm a1
 	rm *.o
+	rm *.bin
