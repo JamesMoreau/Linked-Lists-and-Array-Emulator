@@ -112,7 +112,7 @@ int ds_finish() {
     if(!fwrite(ds_file.block, sizeof(struct ds_blocks_struct), MAX_BLOCKS, ds_file.fp)) { return 1;}
     
     fclose(ds_file.fp);
-    printf("reads: %d\nwrites: %d", ds_counts.reads, ds_counts.writes);
+    printf("reads: %d\nwrites: %d\n", ds_counts.reads, ds_counts.writes);
 
     return 0;
 }

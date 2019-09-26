@@ -24,7 +24,11 @@ int main() {
 
     ds_free(memory);
 
-    /*ds_finish();*/
+    ds_free(17);
+
+    ds_test_init();
+
+    ds_finish();
 
     return 0;
 }
