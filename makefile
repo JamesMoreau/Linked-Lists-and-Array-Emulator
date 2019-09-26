@@ -2,7 +2,7 @@ CFLAGS = -ansi -pedantic -Wall
 CC = gcc
 
 all: ds_memory.o ds_array.o main.o
-	$(CC) $(CFLAGS) ds_array.o ds_memory.o main.o -o Test
+	$(CC) $(CFLAGS) ds_array.o ds_memory.o main.o -o a1
 
 ds_memory.o: ds_memory.c ds_memory.h
 	$(CC) $(CFLAGS) ds_memory.c -c -o ds_memory.o
@@ -18,5 +18,5 @@ cleanW:
 	del *.o
 
 cleanL:
-	rm *.exe
+	rm Test
 	rm *.o

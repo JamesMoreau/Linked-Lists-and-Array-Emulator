@@ -4,12 +4,9 @@ struct ds_file_struct ds_file;
 struct ds_counts_struct ds_counts;
 
 int ds_create(char *filename, long size) {
-   
     int i;
-
-    struct ds_file_struct ds_file;
-    ds_file.fp = fopen(filename, "wb+");
-    if (ds_file.fp == NULL) { return -1;}
+    int temp;
+    temp = 0;
 
     ds_file.block[0].start = 0;
     ds_file.block[0].length = size;
@@ -21,7 +18,17 @@ int ds_create(char *filename, long size) {
         ds_file.block[i].alloced = '0';
     }
 
-    fclose(ds_file.fp);
+    ds_file.fp = fopen(filename, "wb+");
+    if (ds_file.fp == NULL) { return 1;}
+
+
+    if(!fwrite(&ds_file.block, sizeof(ds_file.block), 1, ds_file.fp)) {return 1;} /*can I write the entire block like this?*/
+    
+    for (i=0; i< size; i++) {
+        if(!fwrite(&temp, 1, 1, ds_file.fp)) {return 1;}/*Is this the correct tway to write one byte at a time?*/
+    }
+
+    if(fclose(ds_file.fp) == EOF) {return 1;}
     return 0;
 }
 
