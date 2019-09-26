@@ -16,6 +16,13 @@ int main(int argc, char const *argv[])
     } else {
         printf("Success init'ing\n");
     }
+
+    printf("Calling ds_malloc(10)\n");
+    printf("return value is %ld\n", ds_malloc(10));
+
+    printf("calling ds_malloc(100 000)\n");
+    printf("return value is %ld\n", ds_malloc(100000));
+
     ds_test_init();
 
     return 0;

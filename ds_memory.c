@@ -48,18 +48,18 @@ int ds_init(char* filename) {
 long ds_malloc(long amount) {
     
     int i;
+    int j;
     int isFound = 0;
     long tempStartValue;
     long tempLengthValue;
 
-    for (i=0; i<MAX_BLOCKS; ++i) { /*Searching for free space*/
+    for (i=0; i<MAX_BLOCKS; ++i) {
         if ((ds_file.block[i].length >= amount) && (ds_file.block[i].alloced == '0')) {
             isFound = 1;
             
             ds_file.block[i].length = amount;
             ds_file.block[i].alloced = '1';
 
-            /*save these values*/
             tempStartValue = ds_file.block[i].start;
             tempLengthValue = ds_file.block[i].length;
 
@@ -67,7 +67,7 @@ long ds_malloc(long amount) {
     }
     if (!isFound) { return -1;}
 
-    for (i=0; i<MAX_BLOCKS; ++i) { /*Looking for empty block*/
+    for (i=0; i<MAX_BLOCKS; ++i) { /*shld this be inside first loop? ie.start searchign for 2nd blk from the first*/ 
         if (ds_file.block[i].length == 0) {
             ds_file.block[i].start = tempStartValue + amount;
             ds_file.block[i].length = tempLengthValue - amount;
