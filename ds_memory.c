@@ -51,9 +51,9 @@ long ds_malloc(long amount) {
     int j;
 
     for (i=0; i<MAX_BLOCKS; i++) {
-        if ((ds_file.block[i].length >= amount) && (ds_file.block[i].alloced == '0')) { /*Check if correct*/
+        if ((ds_file.block[i].length >= amount) && (ds_file.block[i].alloced == '0')) {
             
-            for (j = 0; j < MAX_BLOCKS; j++)
+            for (j = i + 1; j < MAX_BLOCKS; j++)
             {
                 if (ds_file.block[j].length == 0)
                 {
@@ -70,7 +70,6 @@ long ds_malloc(long amount) {
             return ds_file.block[i].start;
         }
     }
-
     return -1;
 }
 
@@ -109,14 +108,10 @@ long ds_write(long start, void *ptr, long bytes) {
 
 int ds_finish() {
 
-    int i;
     fseek(ds_file.fp, 0, SEEK_SET);
-
-    for (i = 0; i<MAX_BLOCKS; i++) {
-        if(!fwrite(&ds_file.block[i], sizeof(struct ds_blocks_struct), 1, ds_file.fp)) { return 0;}
-    }
+    if(!fwrite(ds_file.block, sizeof(struct ds_blocks_struct), MAX_BLOCKS, ds_file.fp)) { return 1;}
+    
     fclose(ds_file.fp);
-
     printf("reads: %d\nwrites: %d", ds_counts.reads, ds_counts.writes);
 
     return 0;

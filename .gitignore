@@ -1,3 +1,4 @@
 *.o
 *.exe
 .vscode/sftp.json
+TestMains.c
