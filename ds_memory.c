@@ -11,36 +11,22 @@ int ds_create(char *filename, long size) {
     ds_file.block[0].length = size;
     ds_file.block[0].alloced = 0;
 
-    printf("hi1\n");
-
     for(i=1; i < MAX_BLOCKS; ++i) { 
         ds_file.block[i].start = 0;
         ds_file.block[i].length = 0;
         ds_file.block[i].alloced = 0;
     }
 
-    printf("hi2\n");
-
-
     ds_file.fp = fopen(filename, "wb");
     if (ds_file.fp == NULL) { return 1;}
 
-    printf("hi3\n");
-
-
     if(!fwrite(&ds_file.block, sizeof(ds_file.block), 1, ds_file.fp)) {return 1;}
-    
-    printf("hi4\n");
 
     for (i = 0; i<size; i++) {
         if(!fwrite(&s, sizeof(s), 1, ds_file.fp)) {return 1;}
     }
 
-    printf("hi5\n");
-
     fclose(ds_file.fp);
-
-    printf("hi6\n");
 
     return 0;
 }
@@ -64,12 +50,10 @@ long ds_malloc(long amount) {
     int j;
 
     for (i=0; i<MAX_BLOCKS; i++) {
-        if ((ds_file.block[i].length >= amount) && (ds_file.block[i].alloced == '0')) {
-            
-            for (j = i + 1; j < MAX_BLOCKS; j++)
-            {
-                if (ds_file.block[j].length == 0)
-                {
+        if ((ds_file.block[i].length >= amount) && (ds_file.block[i].alloced == 0)) {
+           
+            for (j = i + 1; j < MAX_BLOCKS; j++) {
+                if (ds_file.block[j].length == 0) {
                     ds_file.block[j].start = ds_file.block[i].start + amount;
                     ds_file.block[j].length = ds_file.block[i].length - amount;
                     ds_file.block[j].alloced = 0;
@@ -103,7 +87,7 @@ void *ds_read(void *ptr, long start, long bytes) {
 
     if(!fread(ptr, bytes, 1, ds_file.fp)) { return NULL;}
 
-    ++ds_counts.reads;
+    ds_counts.reads++;
 
     return ptr;
 }
@@ -111,8 +95,10 @@ void *ds_read(void *ptr, long start, long bytes) {
 long ds_write(long start, void *ptr, long bytes) {
 
     fseek(ds_file.fp, sizeof(ds_file.block) + start, SEEK_SET);
+
     if(!fwrite(ptr, bytes, 1, ds_file.fp)) { return 1;}
-    ++ds_counts.writes;
+    
+    ds_counts.writes++;
 
     return start;
 }

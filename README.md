@@ -4,7 +4,7 @@ Author:       James Moreau
 Email:        jmorea03@uoguelph.ca
 Student #:    1065510
 Date:         
-Description:  This project emulates the use of memory for arrays and linked lists in order               to test their respective advantages.
+Description:  This project emulates the use of memory for arrays and linked lists in order to test their respective advantages.
 
 Academic Dishonesty: The work done for this project is completely of my own authorship.
 *******************************************************************************
