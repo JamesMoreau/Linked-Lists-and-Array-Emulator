@@ -36,7 +36,7 @@ int ds_replace(int value, long index) {
     return 0;
 }
 
-int ds_insert(int value, long index) { /*Forgeting to malloc?*/
+int ds_insert(int value, long index) {
     int i;
     int new = value;
     int old;
