@@ -98,9 +98,7 @@ void *ds_read(void *ptr, long start, long bytes) {
 long ds_write(long start, void *ptr, long bytes) {
 
     fseek(ds_file.fp, sizeof(ds_file.block) + start, SEEK_SET);
-
     if(!fwrite(ptr, bytes, 1, ds_file.fp)) { return 1;}
-
     ++ds_counts.writes;
 
     return start;

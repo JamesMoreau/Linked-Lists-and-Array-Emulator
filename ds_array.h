@@ -21,4 +21,5 @@ long ds_find(int);
 int ds_swap(long, long);
 int ds_read_elements(char*);
 int ds_finish_array();
+void show_array();
 #endif

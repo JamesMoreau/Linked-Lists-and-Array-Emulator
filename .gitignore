@@ -2,3 +2,5 @@
 *.exe
 .vscode/sftp.json
 TestMains.c
+array_test.c
+show_array.c

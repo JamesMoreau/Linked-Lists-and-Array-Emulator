@@ -10,15 +10,13 @@ long getFileLocation_Array(int index) {
 int ds_create_array() {
     long myAddress;
     elements = 0;
+
     ds_init("array.bin");
 
     myAddress = ds_malloc(sizeof(long));
-    if(ds_write(myAddress, 0, sizeof(long))) { return 1;}
-    
-    if(ds_init_array()) {return 1;}
+    if(ds_write(myAddress, &elements, sizeof(long))) { return 1;}
 
     ds_malloc(sizeof(struct ds_blocks_struct) * MAX_BLOCKS);
-
     ds_finish();
     return 0;
 }
@@ -32,7 +30,6 @@ int ds_init_array() {
 
 int ds_replace(int value, long index) {
     if(ds_write(index, &value, sizeof(int))) { return 1;}
-
     return 0;
 }
 
@@ -123,4 +120,9 @@ int ds_finish_array() {
     if(!ds_finish()) {return 1;}
 
     return 0;
+}
+
+void show_array() {
+    ds_test_init();
+    printf("elements = %ld\n", elements);
 }
