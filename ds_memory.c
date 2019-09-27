@@ -5,30 +5,44 @@ struct ds_counts_struct ds_counts;
 
 int ds_create(char *filename, long size) {
     int i;
-    int temp;
-    temp = 0;
+    unsigned char s;
 
     ds_file.block[0].start = 0;
     ds_file.block[0].length = size;
-    ds_file.block[0].alloced = '0';
+    ds_file.block[0].alloced = 0;
+
+    printf("hi1\n");
 
     for(i=1; i < MAX_BLOCKS; ++i) { 
         ds_file.block[i].start = 0;
         ds_file.block[i].length = 0;
-        ds_file.block[i].alloced = '0';
+        ds_file.block[i].alloced = 0;
     }
 
-    ds_file.fp = fopen(filename, "wb+");
+    printf("hi2\n");
+
+
+    ds_file.fp = fopen(filename, "wb");
     if (ds_file.fp == NULL) { return 1;}
 
+    printf("hi3\n");
 
-    if(!fwrite(&ds_file.block, sizeof(ds_file.block), 1, ds_file.fp)) {return 1;} /*can I write the entire block like this?*/
+
+    if(!fwrite(&ds_file.block, sizeof(ds_file.block), 1, ds_file.fp)) {return 1;}
     
-    for (i=0; i< size; i++) {
-        if(!fwrite(&temp, 1, 1, ds_file.fp)) {return 1;}/*Is this the correct tway to write one byte at a time?*/
+    printf("hi4\n");
+
+    for (i = 0; i<=size; i++) {
+        if(!fwrite(&s, sizeof(s), 1, ds_file.fp)) {return 1;}
     }
 
-    if(fclose(ds_file.fp) == EOF) {return 1;}
+    printf("hi5\n");
+
+    fclose(ds_file.fp);
+
+    printf("hi6\n");
+
+
     return 0;
 }
 
@@ -59,13 +73,13 @@ long ds_malloc(long amount) {
                 {
                     ds_file.block[j].start = ds_file.block[i].start + amount;
                     ds_file.block[j].length = ds_file.block[i].length - amount;
-                    ds_file.block[j].alloced = '0';
+                    ds_file.block[j].alloced = 0;
                     break;
                 }
             }
 
             ds_file.block[i].length = amount;
-            ds_file.block[i].alloced = '1';
+            ds_file.block[i].alloced = 1;
 
             return ds_file.block[i].start;
         }
@@ -79,7 +93,7 @@ void ds_free(long start) {
 
     for (i=0; i<MAX_BLOCKS; ++i) {
         if(ds_file.block[i].start == start) {
-            ds_file.block[i].alloced = '0';
+            ds_file.block[i].alloced = 0;
         }
     }
 }

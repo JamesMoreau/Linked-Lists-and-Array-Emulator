@@ -7,8 +7,8 @@ array_test: ds_memory.o ds_array.o array_test.o
 show_array: ds_memory.o ds_array.o show_array.o
 	$(CC) $(CFLAGS) ds_memory.o ds_array.o show_array.o -o show_array
 
-#all: ds_memory.o ds_array.o main.o
-#	$(CC) $(CFLAGS) ds_array.o ds_memory.o main.o -o a1
+main: ds_memory.o ds_array.o main.o
+	$(CC) $(CFLAGS) ds_array.o ds_memory.o main.o -o a1
 
 ds_memory.o: ds_memory.c ds_memory.h
 	$(CC) $(CFLAGS) ds_memory.c -c -o ds_memory.o
@@ -22,8 +22,8 @@ array_test.o: array_test.c
 show_array.o: show_array.c
 	$(CC) $(CFLAGS) show_array.c -c -o show_array.o
 
-#main.o: main.c
-#	$(CC) $(CFLAGS) main.c -c -o main.o
+main.o: main.c
+	$(CC) $(CFLAGS) main.c -c -o main.o
 
 cleanW:
 	del *.exe

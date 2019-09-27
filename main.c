@@ -20,10 +20,13 @@ int main()
     long memory[6] = {0, 2, 6, 14, 10, 30};
 
     /* values copied from output of ds_write */
+    printf("here\n");
 
-    ds_init("test.bin");
+    ds_create("ds_create", 1024);
 
+    printf("here1\n");
     ds_read(&c1, memory[0], sizeof(c1));
+    printf("here2\n");
 
     ds_read(&s1, memory[1], sizeof(s1));
 
@@ -35,7 +38,7 @@ int main()
 
     ds_read(&d1, memory[5], sizeof(d1));
 
-    printf("%d%d%d%ld%f%f\n", c1, s1, i1, l1, f1, d1);
+    printf("%d\n%d\n%d\n%ld\n%f\n%f\n", c1, s1, i1, l1, f1, d1);
 
     ds_finish();
 

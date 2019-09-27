@@ -12,11 +12,14 @@ int ds_create_array() {
     elements = 0;
 
     ds_init("array.bin");
+    printf("dsinited\n");
 
     myAddress = ds_malloc(sizeof(long));
     if(ds_write(myAddress, &elements, sizeof(long))) { return 1;}
+    printf("wrote elements(0) at %ld\n", myAddress);
 
     ds_malloc(sizeof(struct ds_blocks_struct) * MAX_BLOCKS);
+    printf("ds_malloced for block array\n");
     ds_finish();
     return 0;
 }
@@ -35,21 +38,19 @@ int ds_replace(int value, long index) {
 
 int ds_insert(int value, long index) { /*Forgeting to malloc?*/
     int i;
-    int new, old;
+    int new = value;
+    int old;
     long fileLocation = getFileLocation_Array(index);
 
     if( (index < 0) || (index > elements) || (index > MAX_ELEMENTS) ) {return 1;}
 
-    for (i = index; i<elements; i++) {
+    for (i = index; i<=elements; i++) {
         ds_read(&old, fileLocation, sizeof(int));
         ds_write(fileLocation, &new, sizeof(int));
         new = old;
 
         fileLocation += sizeof(int);
     }
-    ds_write(fileLocation, &new, sizeof(int)); /*ie. when index == elements*/
-
-    ds_write(getFileLocation_Array(index), &value, sizeof(int));
 
     elements++;
     return 0;
@@ -63,7 +64,7 @@ int ds_delete(long index) {
     if( (index < 0) || (index >= elements)) {return 1;}
 
     for (i=index; i<(elements-1); i++) {
-        ds_read(&next, fileLocation + sizeof(int), sizeof(int)); /*reads next int in array*/
+        ds_read(&next, fileLocation + sizeof(int), sizeof(int));
         ds_write(fileLocation, &next, sizeof(int));
 
         fileLocation+=sizeof(int);
