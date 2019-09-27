@@ -33,7 +33,7 @@ int ds_replace(int value, long index) {
     return 0;
 }
 
-int ds_insert(int value, long index) {
+int ds_insert(int value, long index) { /*Forgeting to malloc?*/
     int i;
     int new, old;
     long fileLocation = getFileLocation_Array(index);
@@ -49,7 +49,10 @@ int ds_insert(int value, long index) {
     }
     ds_write(fileLocation, &new, sizeof(int)); /*ie. when index == elements*/
 
-    ++elements;
+    ds_malloc(sizeof(value)); /*writing the value in the open position*/
+    ds_write(getFileLocation_Array(index), &value, sizeof(int));
+
+    elements++;
     return 0;
 }
 
