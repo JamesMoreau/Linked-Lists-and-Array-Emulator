@@ -32,7 +32,7 @@ int ds_create(char *filename, long size) {
     
     printf("hi4\n");
 
-    for (i = 0; i<=size; i++) {
+    for (i = 0; i<size; i++) {
         if(!fwrite(&s, sizeof(s), 1, ds_file.fp)) {return 1;}
     }
 
@@ -42,7 +42,6 @@ int ds_create(char *filename, long size) {
 
     printf("hi6\n");
 
-
     return 0;
 }
 
@@ -51,7 +50,7 @@ int ds_init(char* filename) {
     ds_file.fp = fopen(filename, "rb+");
     if (ds_file.fp == NULL) { return 1;}
 
-    if (!fread(ds_file.block, sizeof(struct ds_blocks_struct), MAX_BLOCKS, ds_file.fp)) { return 1;} /*CHECK THIS*/
+    if (!fread(&ds_file.block, sizeof(struct ds_blocks_struct), MAX_BLOCKS, ds_file.fp)) { return 1;}
 
     ds_counts.reads = 0;
     ds_counts.writes = 0;
@@ -121,7 +120,7 @@ long ds_write(long start, void *ptr, long bytes) {
 int ds_finish() {
 
     fseek(ds_file.fp, 0, SEEK_SET);
-    if(!fwrite(ds_file.block, sizeof(struct ds_blocks_struct), MAX_BLOCKS, ds_file.fp)) { return 1;} /*CHECK THIS*/
+    if(!fwrite(&ds_file.block, sizeof(struct ds_blocks_struct), MAX_BLOCKS, ds_file.fp)) { return 1;}
     
     fclose(ds_file.fp);
     printf("reads: %d\nwrites: %d\n", ds_counts.reads, ds_counts.writes);
