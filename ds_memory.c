@@ -85,7 +85,7 @@ void *ds_read(void *ptr, long start, long bytes) {
 
     fseek(ds_file.fp, sizeof(ds_file.block) + start, SEEK_SET);
 
-    if(!fread(ptr, bytes, 1, ds_file.fp)) { return NULL;}
+    fread(ptr, bytes, 1, ds_file.fp);
 
     ds_counts.reads++;
 

@@ -3,7 +3,7 @@
 
 long elements;
 
-long getFileLocation_Array(int index) {
+long getFileLocation(int index) {
     return (index * sizeof(int)) + sizeof(long);
 }
 
@@ -29,7 +29,9 @@ int ds_init_array() {
 }
 
 int ds_replace(int value, long index) {
-    if(ds_write(index, &value, sizeof(int))) { return 1;}
+    if( (index < 0) || (index >= elements) ) {return 1;}
+    printf("replacing at index %ld with value %d\n", index, value);
+    if(ds_write(getFileLocation(index), &value, sizeof(int))) { return 1;}
     return 0;
 }
 
@@ -37,29 +39,33 @@ int ds_insert(int value, long index) {
     int i;
     int new = value;
     int old;
-    long fileLocation = getFileLocation_Array(index);
+    if( (index < 0) || (index > elements) || (index > MAX_ELEMENTS) || (elements == MAX_ELEMENTS)) {return 1;}
 
-    if( (index < 0) || (index > elements) || (index > MAX_ELEMENTS) ) {return 1;}
+    printf("insertion at index %ld of value %d\n", index, value);
+    if(index == elements) {
+        ds_write(getFileLocation(index), &value, sizeof(int));
+        elements++;
+    } else {
 
-    for (i = index; i<=elements; i++) {
-        printf("fileLocation is %ld\n", fileLocation);
-        ds_read(&old, fileLocation, sizeof(int));
-        printf("old is %d\n", old);
-        ds_write(fileLocation, &new, sizeof(int));
-        printf("new is %d\n", new);
-        new = old;
-
-        fileLocation += sizeof(int);
+        for (i = index; i<=elements; i++) {
+            printf("fileLocation is %ld\n", getFileLocation(i));
+            ds_read(&old, getFileLocation(i), sizeof(int));
+            /*printf("old is %d\n", old);*/
+            ds_write(getFileLocation(i), &new, sizeof(int));
+            /*printf("new is %d\n", new);*/
+            new = old;
+            /*printf("new after assignment is %d\n",new);*/
+        }
+        elements++;
     }
-
-    elements++;
+    printf("elements is %ld\n", elements);
     return 0;
 }
 
 int ds_delete(long index) {
     int i;
     int next;
-    long fileLocation = getFileLocation_Array(index);
+    long fileLocation = getFileLocation(index);
 
     if( (index < 0) || (index >= elements)) {return 1;}
 
@@ -90,15 +96,16 @@ int ds_swap(long index1, long index2) {
     int temp1;
     int temp2;
 
-    return 1;
     if ((index1 < 0) || (index1 >= elements)) {return 1;}
-    if ((index2 < 0) || (index2 >= elements)) {return 1;}  
+    if ((index2 < 0) || (index2 >= elements)) {return 1;}
 
-    ds_read(&temp1, getFileLocation_Array(index1), sizeof(int));
-    ds_read(&temp2, getFileLocation_Array(index2), sizeof(int));
+    if(ds_read(&temp1, getFileLocation(index1), sizeof(int)) == NULL) {return 1;}
+    if(ds_read(&temp2, getFileLocation(index2), sizeof(int)) == NULL) {return 1;}
 
-    ds_write(getFileLocation_Array(index2), &temp1, sizeof(int));
-    ds_write(getFileLocation_Array(index1), &temp2, sizeof(int));
+    printf("Swapping values %d and %d\n", temp1, temp2);
+
+    if(ds_write(getFileLocation(index2), &temp1, sizeof(int))) {return 1;}
+    if(ds_write(getFileLocation(index1), &temp2, sizeof(int))) {return 1;}
 
     return 0;
 }
@@ -119,7 +126,7 @@ int ds_read_elements(char *filename) {
 
 int ds_finish_array() {
     
-    ds_write(getFileLocation_Array(0), &elements, sizeof(long));
+    ds_write(getFileLocation(0), &elements, sizeof(long));
     if(!ds_finish()) {return 1;}
 
     return 0;

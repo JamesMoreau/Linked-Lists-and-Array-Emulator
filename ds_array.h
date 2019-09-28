@@ -11,7 +11,7 @@
 #include <stdlib.h>
 
 /*Functions*/
-long getFileLocation_Array(int) ;
+long getFileLocation(int);
 int ds_create_array();
 int ds_init_array();
 int ds_replace(int, long);
