@@ -16,7 +16,7 @@ struct ds_list_item_struct {
     long next;
 };
 
-/*Function*/
+/*Functions*/
 
 
 #endif

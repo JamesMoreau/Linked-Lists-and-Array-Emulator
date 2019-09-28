@@ -92,7 +92,7 @@ long ds_find(int target) {
     return -1;
 }
 
-int ds_swap(long index1, long index2) {
+int ds_swap(long index1, long index2) { /*Not working*/
     int temp1;
     int temp2;
     if (index1 == index2) {return 1;}
