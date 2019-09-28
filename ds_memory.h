@@ -35,6 +35,6 @@ void ds_free(long);
 void *ds_read(void *, long , long );
 long ds_write(long, void *, long);
 int ds_finish();
-void ds_test_init(void);
+void ds_test_init();
 
 #endif

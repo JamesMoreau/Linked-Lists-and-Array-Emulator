@@ -14,11 +14,16 @@ int main(int argc, char** argv) {
     ds_insert(4, 0);
     ds_insert(2, 1);
     ds_insert(5, 2);
-    ds_insert(1, 3);
-    ds_swap(1, 2);
+    ds_insert(10, 3);
+    ds_insert(29, 4);
+    ds_insert(32, 5);
+    ds_insert(1, 6);
+    
+    ds_replace(100, 2);
+    /*printf("ds_swap return is %d\n", ds_swap(2,4));*/
 
     /*4 5 2 1 */
-    printf("2 is at index %ld\n", ds_find(2));
+    show_array();
     ds_finish();
 
     return 0;
