@@ -17,6 +17,11 @@ struct ds_list_item_struct {
 };
 
 /*Functions*/
+int ds_create_list();
+int ds_init_list();
+int ds_insert(int, long);
+int ds_finish_list();
+void show_list();
 
 
 #endif

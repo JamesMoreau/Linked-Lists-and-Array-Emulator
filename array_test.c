@@ -22,7 +22,6 @@ int main(int argc, char** argv) {
     ds_replace(100, 2);
     /*printf("ds_swap return is %d\n", ds_swap(2,4));*/
 
-    /*4 5 2 1 */
     show_array();
     ds_finish();
 

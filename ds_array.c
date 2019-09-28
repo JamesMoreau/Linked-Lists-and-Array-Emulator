@@ -104,7 +104,7 @@ int ds_swap(long index1, long index2) { /*Not working*/
 
     printf("Swapping values %d of index %ld and %d of index %ld\n", temp1, index1, temp2, index2);
 
-    if(ds_write(getFileLocation(index1), &temp2, sizeof(int))) {return 1;}
+    if(ds_write(getFileLocation(index1), &temp2, sizeof(int))) {return 1;} /*Removing if on writes seems to fix it*/
     printf("here1");
     if(ds_write(getFileLocation(index2), &temp1, sizeof(int))) {return 1;}
     printf("here2");
