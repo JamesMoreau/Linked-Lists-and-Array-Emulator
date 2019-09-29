@@ -22,6 +22,7 @@ int ds_init_list();
 int ds_insert(int, long);
 int ds_finish_list();
 int ds_delete(long);
+int ds_replace(int, long);
 void show_list();
 
 

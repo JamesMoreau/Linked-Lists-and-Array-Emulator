@@ -107,14 +107,35 @@ int ds_delete(long index) {
     ds_write(last_item_loc, &previous, sizeof(struct ds_list_item_struct));
     return 0;
 }
+
+int ds_replace(int value, long index) {
+    int i;
+    long StartOfFile;
+    struct ds_list_item_struct previous, new;
+
+    if(index < 0) {return 1;}
+
+    StartOfFile = 0;
+    ds_read(&previous.next, StartOfFile, sizeof(long));
+
+    for (i = index; i > 0; i--) {
+        if(previous.next == -1) {return -1;}
+        ds_read(&previous, previous.next, sizeof(struct ds_list_item_struct));
+    }
+
+    ds_read(&new, previous.next, sizeof(struct ds_list_item_struct));
+    new.item = value;
+    ds_write(previous.next, &new, sizeof(struct ds_list_item_struct));
+
+    return 0;
+}
+
 void show_list() {
     long loc;
     long startOfFile;
     struct ds_list_item_struct li;
     
-    /*
     ds_test_init();
-    */
 
     startOfFile = 0;
     ds_read(&loc, startOfFile, sizeof(long));
