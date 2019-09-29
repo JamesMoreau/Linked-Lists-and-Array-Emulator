@@ -11,7 +11,6 @@ int ds_create_list() {
 
     if(ds_malloc(sizeof(long)) == -1) {return 1;}
     if(ds_write(pos, &temp, sizeof(long))) { return 1;}
-    printf("wrote %ld at position %ld\n", temp, pos);
     ds_finish();
     return 0;
 }
@@ -44,7 +43,6 @@ int ds_insert(int value, long index) {
 
     ds_write(previous.next, &new, sizeof(struct ds_list_item_struct));
 
-    printf("last_item_loc is %ld\n", last_item_loc);
     if(last_item_loc == StartOfFile) {
         ds_write(StartOfFile, &previous.next, sizeof(long));
         return 0;
@@ -69,8 +67,9 @@ int ds_read_elements(char *filename) {
 
     i = 0;
 
-    while (fscanf(myFp, "%d", &temp))
+    while (fscanf(myFp, "%d ", &temp))
     {
+        printf("read in %d\n", temp);
         ds_insert(temp, i);
         i++;
     }
@@ -148,7 +147,6 @@ int ds_swap(long index1, long index2) {
     }
     loc_one = temp.next;
     ds_read(&val1, loc_one, sizeof(int));
-    printf("val 1: %d\n", val1);
 
     ds_read(&temp.next, startOfFile, sizeof(long)); /*getting second value*/
 
@@ -158,7 +156,6 @@ int ds_swap(long index1, long index2) {
     }
     loc_two = temp.next;
     ds_read(&val2, loc_two, sizeof(int));
-    printf("val 2: %d\n", val2);
 
     ds_write(loc_one, &val2, sizeof(int));
     ds_write(loc_two, &val1, sizeof(int));
@@ -187,12 +184,11 @@ void show_list() {
     long loc;
     long startOfFile;
     struct ds_list_item_struct li;
-    
+    /*
     ds_test_init();
-
+    */
     startOfFile = 0;
     ds_read(&loc, startOfFile, sizeof(long));
-    printf("first loc is %ld\n", loc);
     if (loc == -1) {return;}
     
     while(li.next != -1) {

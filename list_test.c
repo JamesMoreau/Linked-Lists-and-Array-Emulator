@@ -9,20 +9,15 @@ int main() {
 
     ds_init_list(); /*Remember this sets r/w s to 0;*/
 
+    /*Write a for loop here to open each numbersfile*/
 
-    ds_insert(32, 0);
-    ds_insert(21, 1);
-    ds_insert(5, 2);
-    ds_insert(13, 3);
-    ds_insert(20, 4);
-    ds_insert(41, 5);
-    ds_insert(23, 6);
-
-    printf("index: %ld\n", ds_find(23));
-
+    printf("here\n");
+    ds_read_elements("numbers.txt"); /*THIS IS STUCK LOOP*/
+    printf("here2\n");
+    /*ds_replace(0, 1);*/
+    ds_finish_list();
 
     show_list();
-    ds_finish_list();
 
    return 0;
 }

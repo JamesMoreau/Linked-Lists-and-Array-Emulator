@@ -2,3 +2,9 @@
 *.exe
 .vscode/sftp.json
 .vscode/*
+numbers.txt
+makeNumbers.c
+~$Graphs.xlsx
+Graphs.xlsx
+*.txt
+makeNumbers10.c

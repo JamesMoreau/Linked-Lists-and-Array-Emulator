@@ -7,9 +7,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-/*Globals*/
-
-
 /*Structures*/
 struct ds_list_item_struct {
     int item;
@@ -21,6 +18,7 @@ int ds_create_list();
 int ds_init_list();
 int ds_insert(int, long);
 int ds_finish_list();
+int ds_read_elements();
 int ds_delete(long);
 int ds_replace(int, long);
 int ds_swap(long, long);

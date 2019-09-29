@@ -231,3 +231,28 @@ int main(int argc, char **argv)
 
     return 0;
 }
+
+int main()
+{
+
+    ds_create("list.bin", 2048);
+
+    ds_create_list();
+
+    ds_init_list(); /*Remember this sets r/w s to 0;*/
+
+    ds_insert(32, 0);
+    ds_insert(21, 1);
+    ds_insert(5, 2);
+    ds_insert(13, 3);
+    ds_insert(20, 4);
+    ds_insert(41, 5);
+    ds_insert(23, 6);
+
+    printf("index: %ld\n", ds_find());
+
+    show_list();
+    ds_finish_list();
+
+    return 0;
+}
