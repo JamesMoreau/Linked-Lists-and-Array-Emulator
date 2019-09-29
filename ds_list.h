@@ -24,6 +24,7 @@ int ds_finish_list();
 int ds_delete(long);
 int ds_replace(int, long);
 int ds_swap(long, long);
+long ds_find(int);
 void show_list();
 
 

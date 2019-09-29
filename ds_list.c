@@ -166,6 +166,23 @@ int ds_swap(long index1, long index2) {
     return 0;
 }
 
+long ds_find(int target) {
+    int i;
+    long startOfFile;
+    struct ds_list_item_struct temp;
+
+    startOfFile = 0;
+    i = 0;
+    ds_read(&temp.next, startOfFile, sizeof(long));
+
+    while (temp.next != -1) {
+        ds_read(&temp, temp.next, sizeof(struct ds_list_item_struct));
+        if (temp.item == target) { return i;}
+        i++;
+    }
+    return -1;
+}
+
 void show_list() {
     long loc;
     long startOfFile;

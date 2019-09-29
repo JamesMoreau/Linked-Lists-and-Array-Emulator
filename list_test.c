@@ -16,10 +16,11 @@ int main() {
     ds_insert(13, 3);
     ds_insert(20, 4);
     ds_insert(41, 5);
-    ds_insert(-23, 6);
+    ds_insert(23, 6);
 
-    ds_swap(1, 4);
-    ds_swap(4, 1);
+    printf("index: %ld\n", ds_find(23));
+
+
     show_list();
     ds_finish_list();
 
