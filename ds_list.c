@@ -130,6 +130,42 @@ int ds_replace(int value, long index) {
     return 0;
 }
 
+int ds_swap(long index1, long index2) {
+    int i;
+    long startOfFile;
+    long loc_one, loc_two;
+    int val1, val2;
+    struct ds_list_item_struct temp;
+    
+    if ( (index1 < 0) || (index2 <0) ) {return 1;}
+
+    startOfFile = 0;
+    ds_read(&temp.next, startOfFile, sizeof(long)); /*Getting first value*/
+
+    for (i = index1; i > 0; i--) {
+        if(temp.next == -1) {return 1;}
+        ds_read(&temp, temp.next, sizeof(struct ds_list_item_struct));
+    }
+    loc_one = temp.next;
+    ds_read(&val1, loc_one, sizeof(int));
+    printf("val 1: %d\n", val1);
+
+    ds_read(&temp.next, startOfFile, sizeof(long)); /*getting second value*/
+
+    for (i = index2; i > 0; i--) {
+        if(temp.next == -1) {return 1;}
+        ds_read(&temp, temp.next, sizeof(struct ds_list_item_struct));
+    }
+    loc_two = temp.next;
+    ds_read(&val2, loc_two, sizeof(int));
+    printf("val 2: %d\n", val2);
+
+    ds_write(loc_one, &val2, sizeof(int));
+    ds_write(loc_two, &val1, sizeof(int));
+
+    return 0;
+}
+
 void show_list() {
     long loc;
     long startOfFile;

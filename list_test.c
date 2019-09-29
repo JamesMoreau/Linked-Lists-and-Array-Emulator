@@ -18,8 +18,8 @@ int main() {
     ds_insert(41, 5);
     ds_insert(-23, 6);
 
-
-    ds_replace(100, 6);
+    ds_swap(1, 4);
+    ds_swap(4, 1);
     show_list();
     ds_finish_list();
 
