@@ -1,7 +1,7 @@
 #include "ds_memory.h"
 #include "ds_array.h"
 
-int main(int argc, char** argv) {
+int main() {
 
     ds_create("array.bin", 1234);
     
@@ -9,18 +9,29 @@ int main(int argc, char** argv) {
 
     ds_init_array();
 
+    printf("Elements reading in from file\n");
+    ds_read_elements("numbers100.txt");
+    ds_reset();
 
-    printf("appending values\n");
-    ds_insert(4, 0);
-    ds_insert(2, 1);
-    ds_insert(5, 2);
-    ds_insert(10, 3);
-    ds_insert(29, 4);
-    ds_insert(32, 5);
-    ds_insert(1, 6);
-    
-    ds_replace(100, 2);
-    /*printf("ds_swap return is %d\n", ds_swap(2,4));*/
+    printf("List Replace\n");
+    ds_replace(0, 23);
+    ds_print_counts();
+    ds_reset();
+
+    printf("List insert\n");
+    ds_insert(0, 90);
+    ds_print_counts();
+    ds_reset();
+
+    printf("list delete\n");
+    ds_delete(95);
+    ds_print_counts();
+    ds_reset();
+
+    printf("List swap\n");
+    ds_swap(rand() % 23, rand() % 56);
+    ds_print_counts();
+    ds_reset();
 
     show_array();
     ds_finish();

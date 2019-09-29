@@ -1,11 +1,11 @@
 CFLAGS = -ansi -pedantic -Wall
 CC = gcc
 
-list_test: ds_memory.o ds_list.o list_test.o
-	$(CC) $(CFLAGS) ds_memory.o ds_list.o list_test.o -o list_test
-
 array_test: ds_memory.o ds_array.o array_test.o
 	$(CC) $(CFLAGS) ds_memory.o ds_array.o array_test.o -o array_test
+
+list_test: ds_memory.o ds_list.o list_test.o
+	$(CC) $(CFLAGS) ds_memory.o ds_list.o list_test.o -o list_test
 
 show_array: ds_memory.o ds_array.o show_array.o
 	$(CC) $(CFLAGS) ds_memory.o ds_array.o show_array.o -o show_array

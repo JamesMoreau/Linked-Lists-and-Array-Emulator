@@ -1,3 +1,8 @@
+/*
+NAME:   James Moreau
+STUDENT ID: 1065510
+EMAIL:  jmorea03@uoguelph.ca*/
+
 #include "ds_memory.h"
 
 struct ds_file_struct ds_file;
@@ -120,4 +125,15 @@ void ds_test_init() {
     for ( i=0; i<MAX_BLOCKS; i++) {
         printf("%d\t%ld\t%ld\t%c\n", i, ds_file.block[i].start, ds_file.block[i].length, ds_file.block[i].alloced);
     }
+}
+
+void ds_reset() {
+    printf("Reseting counts\n\n");
+    ds_counts.reads = 0;
+    ds_counts.writes = 0;
+    
+}
+
+void ds_print_counts() {
+    printf("reads: %d\nwrites: %d\n", ds_counts.reads, ds_counts.writes);
 }

@@ -1,3 +1,7 @@
+/*
+NAME:   James Moreau
+STUDENT ID: 1065510
+EMAIL:  jmorea03@uoguelph.ca*/
 #include "ds_list.h"
 #include "ds_memory.h"
 
@@ -67,11 +71,10 @@ int ds_read_elements(char *filename) {
 
     i = 0;
 
-    while (fscanf(myFp, "%d ", &temp))
-    {
+    for(i = 0; i<100; i++) {
+        fscanf(myFp, "%d ", &temp);
         printf("read in %d\n", temp);
         ds_insert(temp, i);
-        i++;
     }
 
     return 0;
@@ -111,6 +114,8 @@ int ds_replace(int value, long index) {
     int i;
     long StartOfFile;
     struct ds_list_item_struct previous, new;
+
+    printf("replacing at random index %ld\n", index);
 
     if(index < 0) {return 1;}
 

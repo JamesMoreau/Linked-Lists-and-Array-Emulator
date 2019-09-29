@@ -1,3 +1,7 @@
+/*
+NAME:   James Moreau
+STUDENT ID: 1065510
+EMAIL:  jmorea03@uoguelph.ca*/
 /*guards*/
 #ifndef __ARRAYH__
 #define __ARRAYH__

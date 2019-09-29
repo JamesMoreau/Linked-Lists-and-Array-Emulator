@@ -1,3 +1,8 @@
+/*
+NAME:   James Moreau
+STUDENT ID: 1065510
+EMAIL:  jmorea03@uoguelph.ca*/
+
 /*guards*/
 #ifndef __MEMORYH__
 #define __MEMORYH__
@@ -36,5 +41,7 @@ void *ds_read(void *, long , long );
 long ds_write(long, void *, long);
 int ds_finish();
 void ds_test_init();
+void ds_reset();
+void ds_print_counts();
 
 #endif

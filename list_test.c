@@ -1,5 +1,6 @@
 #include "ds_list.h"
 #include "ds_memory.h"
+#include <time.h>
 
 int main() {
 
@@ -10,14 +11,32 @@ int main() {
     ds_init_list(); /*Remember this sets r/w s to 0;*/
 
     /*Write a for loop here to open each numbersfile*/
+    printf("Elements reading in from file\n");
+    ds_read_elements("numbers100.txt");
+    ds_reset();
 
-    printf("here\n");
-    ds_read_elements("numbers.txt"); /*THIS IS STUCK LOOP*/
-    printf("here2\n");
-    /*ds_replace(0, 1);*/
-    ds_finish_list();
+    printf("List Replace\n");
+    ds_replace(0, 92);
+    ds_print_counts();
+    ds_reset();
+
+    printf("List insert\n");
+    ds_insert(0,46);
+    ds_print_counts();
+    ds_reset();
+
+    printf("list delete\n");
+    ds_delete(rand() % 100);
+    ds_print_counts();
+    ds_reset();
+
+    printf("List swap\n");
+    ds_swap(rand() % 100, rand() % 100);
+    ds_print_counts();
+    ds_reset();
 
     show_list();
+    ds_finish_list();
 
-   return 0;
+    return 0;
 }
