@@ -37,7 +37,6 @@ int ds_insert(int value, long index) {
         ds_read(&previous, previous.next, sizeof(struct ds_list_item_struct));     
     }
 
-    printf("here4\n");
     new.item = value;
     new.next = previous.next;
     previous.next = ds_malloc(sizeof(struct ds_list_item_struct));
@@ -61,6 +60,53 @@ int ds_finish_list() {
     return 0;
 }
 
+int ds_read_elements(char *filename) {
+    
+    int temp;
+    int i;
+    FILE* myFp = fopen(filename, "r");
+    if (myFp == NULL) {return 1;}
+
+    i = 0;
+
+    while (fscanf(myFp, "%d", &temp))
+    {
+        ds_insert(temp, i);
+        i++;
+    }
+
+    return 0;
+}
+
+int ds_delete(long index) {
+    int i;
+    long startOfFile;
+    long last_item_loc;
+    struct ds_list_item_struct previous, after;
+    
+    if (index < 0) {return 1;}
+    
+    startOfFile = 0;
+    last_item_loc = 0;
+    ds_read(&previous.next, startOfFile, sizeof(long));
+
+    for (i = index; i > 0 ; i--) {
+        if (previous.next == -1) { return -1;}
+        last_item_loc = previous.next;
+        ds_read(&previous, previous.next, sizeof(struct ds_list_item_struct));
+    }
+
+    ds_read(&after, previous.next, sizeof(struct ds_list_item_struct));
+    previous.next = after.next;
+
+    if (last_item_loc == startOfFile) {
+        ds_write(startOfFile, &previous.next, sizeof(long));
+        return 0;
+    }
+ 
+    ds_write(last_item_loc, &previous, sizeof(struct ds_list_item_struct));
+    return 0;
+}
 void show_list() {
     long loc;
     long startOfFile;

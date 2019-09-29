@@ -21,6 +21,7 @@ int ds_create_list();
 int ds_init_list();
 int ds_insert(int, long);
 int ds_finish_list();
+int ds_delete(long);
 void show_list();
 
 

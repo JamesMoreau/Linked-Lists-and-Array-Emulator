@@ -17,6 +17,9 @@ int main() {
     ds_insert(20, 4);
     ds_insert(41, 5);
     ds_insert(-23, 6);
+    ds_delete(3);
+    ds_delete(2);
+    ds_insert(100, 0);
     show_list();
     ds_finish_list();
 
