@@ -73,7 +73,7 @@ int ds_read_elements(char *filename) {
 
     for(i = 0; i<100; i++) {
         fscanf(myFp, "%d ", &temp);
-        printf("read in %d\n", temp);
+        /*printf("read in %d\n", temp);*/
         ds_insert(temp, i);
     }
 
@@ -115,7 +115,7 @@ int ds_replace(int value, long index) {
     long StartOfFile;
     struct ds_list_item_struct previous, new;
 
-    printf("replacing at random index %ld\n", index);
+    /*printf("replacing at random index %ld\n", index);*/
 
     if(index < 0) {return 1;}
 

@@ -10,8 +10,15 @@ int main() {
 
     ds_init_list(); /*Remember this sets r/w s to 0;*/
 
+    ds_insert(10, 0);
+    ds_insert(34, 1);
+    ds_insert(-12, 2);
+    ds_insert(32, 3);
+    ds_insert(94, 4);
+    ds_insert(2, 5);
+
     /*Write a for loop here to open each numbersfile*/
-    printf("Elements reading in from file\n");
+    /*printf("Elements reading in from file\n");
     ds_read_elements("numbers100.txt");
     ds_reset();
 
@@ -35,7 +42,7 @@ int main() {
     ds_print_counts();
     ds_reset();
 
-    show_list();
+    show_list();*/
     ds_finish_list();
 
     return 0;
